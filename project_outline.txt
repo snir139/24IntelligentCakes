@@ -1,0 +1,11 @@
+The project is a simple website, it's a gift for a friend.
+We want her accomplishments to feel more meaningful.
+We wanted to focus on reading:
+We envision a simple website where different books she has and hasn't read yet are visualized as a "skill tree".
+As she unlocks new books (finishes them), they unlock new books (which are gifts) or gifts.
+We thought about something like this - as she finishes a reading session, she may update a certain book's "progress" by writing which page she stopped at.
+At first, the tree is hidden, the website is boring (yet pretty). Once she reaches a static previously set goal, the real website unlocked with the tree.
+Once she reaches certain hidden goals in a specific book, we give her small related present in real life.
+We want future books to be hidden (as in, it shows that a future book may be unlocked, but its thumbnail is hidden or heavily obscured).
+
+Design-wise, we want baby pink and strawberry themed website, cute x3.
