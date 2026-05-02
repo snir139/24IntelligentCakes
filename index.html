@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>📚 Reading Quest</title>
+    <title>📚 Diana's Reading Quest</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,17 +12,19 @@
         <div id="lockedState" class="state active">
             <div class="locked-content">
                 <h1>📚 Reading Quest</h1>
-                <p>A journey of pages and discoveries...</p>
+                <p class="greeting">Hey Diana! Tell us how many pages you've read so far today! Have you enjoyed yourself? 💕</p>
                 
                 <div class="progress-bar">
                     <div class="progress-fill" id="progressFill"></div>
                 </div>
-                <p class="progress-text" id="progressText">0 / 50 pages read</p>
+                <p class="progress-text" id="progressText">0 / 150 pages read</p>
                 
                 <div class="book-input">
-                    <input type="number" id="pageInput" placeholder="Enter pages read today" min="0">
-                    <button onclick="addProgress()">📖 Log Reading</button>
+                    <input type="number" id="pageInput" placeholder="Enter current page" min="0">
+                    <button onclick="addProgress()">📖 Update Progress</button>
                 </div>
+                
+                <p class="hint">Once you reach 150 pages, the magical skill tree will unlock! ✨</p>
             </div>
         </div>
 
@@ -30,47 +32,16 @@
         <div id="unlockedState" class="state">
             <header>
                 <h1>🌸 Reading Quest</h1>
-                <p class="unlock-message">✨ Tree Unlocked! ✨</p>
+                <p class="unlock-message">✨ Your Skill Tree Unlocked! ✨</p>
+                <p class="celebrate-text">This is huge, Diana! You're on an amazing journey! 🎉</p>
             </header>
 
             <main>
-                <div class="skill-tree">
-                    <div class="tree-level level-1">
-                        <div class="book" data-book="1">
-                            <div class="book-cover">📖</div>
-                            <p>Book 1</p>
-                            <input type="number" class="page-input" placeholder="Pages" min="0">
-                            <button onclick="updateBook(1)">Update</button>
-                        </div>
-                    </div>
-
-                    <div class="tree-level level-2">
-                        <div class="book" data-book="2">
-                            <div class="book-cover">📕</div>
-                            <p>Book 2</p>
-                            <input type="number" class="page-input" placeholder="Pages" min="0">
-                            <button onclick="updateBook(2)">Update</button>
-                        </div>
-                        <div class="book hidden" data-book="3">
-                            <div class="book-cover">❓</div>
-                            <p>???</p>
-                        </div>
-                    </div>
-
-                    <div class="tree-level level-3">
-                        <div class="book" data-book="4">
-                            <div class="book-cover">📗</div>
-                            <p>Book 3</p>
-                            <input type="number" class="page-input" placeholder="Pages" min="0">
-                            <button onclick="updateBook(4)">Update</button>
-                        </div>
-                    </div>
-                </div>
+                <div class="skill-tree" id="skillTree"></div>
 
                 <div class="stats">
-                    <h2>📊 Stats</h2>
-                    <p>Total Pages: <span id="totalPages">0</span></p>
-                    <p>Books Completed: <span id="booksCompleted">0</span></p>
+                    <h2>📊 Your Progress</h2>
+                    <p>Total pages read: <span id="totalPages">0</span></p>
                 </div>
             </main>
         </div>
