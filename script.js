@@ -2,6 +2,7 @@
 const CONFIG = {
     unlockGoal: 150, // Total pages to reach before tree unlocks
     tree: [
+        // Level 1 - Starting book
         {
             id: 1,
             type: 'book',
@@ -9,67 +10,89 @@ const CONFIG = {
             totalPages: 426,
             level: 1,
             x: 50,
-            children: [2, 3]
+            bookChildren: [2],
+            giftReward: 10
         },
+        // Level 2 - Books unlocked by Book 1
         {
             id: 2,
-            type: 'gift',
-            name: 'Bookmark Set',
-            level: 2,
-            x: 20,
-            children: [4]
-        },
-        {
-            id: 3,
             type: 'book',
             name: 'Jane Eyre',
             totalPages: 576,
             level: 2,
-            x: 80,
-            children: [5]
+            x: 30,
+            bookChildren: [3],
+            giftReward: 11
         },
+        // Level 3 - Books unlocked by Level 2
         {
-            id: 4,
+            id: 3,
             type: 'book',
             name: 'The Adventures of Sherlock Holmes',
             totalPages: 336,
             level: 3,
-            x: 20,
-            children: [6]
+            x: 70,
+            bookChildren: [4],
+            giftReward: 12
         },
+        // Level 4 - Books unlocked by Level 3
         {
-            id: 5,
-            type: 'gift',
-            name: 'Book Light',
-            level: 3,
-            x: 80,
-            children: [7]
-        },
-        {
-            id: 6,
+            id: 4,
             type: 'book',
             name: 'Dracula',
             totalPages: 464,
             level: 4,
-            x: 20,
-            children: [8]
+            x: 30,
+            bookChildren: [5],
+            giftReward: 13
         },
+        // Level 5 - Books unlocked by Level 4
         {
-            id: 7,
+            id: 5,
             type: 'book',
             name: 'Frankenstein',
             totalPages: 240,
-            level: 4,
-            x: 80,
-            children: []
+            level: 5,
+            x: 70,
+            bookChildren: [],
+            giftReward: 14
+        },
+       
+        // Gifts - separate from tree structure
+        {
+            id: 10,
+            type: 'gift',
+            name: 'Bookmark Set',
+            level: 2,
+            rewardedBy: 1
         },
         {
-            id: 8,
+            id: 11,
             type: 'gift',
-            name: 'Cozy Reading Blanket',
+            name: 'Book Light',
+            level: 3,
+            rewardedBy: 2
+        },
+        {
+            id: 12,
+            type: 'gift',
+            name: 'Reading Glasses',
+            level: 4,
+            rewardedBy: 3
+        },
+        {
+            id: 13,
+            type: 'gift',
+            name: 'Tea Set',
             level: 5,
-            x: 50,
-            children: []
+            rewardedBy: 4
+        },
+        {
+            id: 14,
+            type: 'gift',
+            name: 'Cozy Blanket',
+            level: 6,
+            rewardedBy: 5
         }
     ]
 };
@@ -147,12 +170,16 @@ function updateNodeProgress(nodeId) {
     if (currentPage >= node.totalPages && !userData.nodes[nodeId].finished) {
         userData.nodes[nodeId].finished = true;
         
-        // Unlock children
-        // Unlock children only if the node is a book
-        if (node.type === 'book') {
-            node.children.forEach(childId => {
+        // Unlock book children only (gifts are handled separately)
+        if (node.bookChildren && node.bookChildren.length > 0) {
+            node.bookChildren.forEach(childId => {
                 userData.nodes[childId].obtained = true;
             });
+        }
+        
+        // Unlock gift reward
+        if (node.giftReward) {
+            userData.nodes[node.giftReward].obtained = true;
         }
         
         celebrateUnlock();
@@ -171,12 +198,17 @@ function finishBook(nodeId) {
 
     userData.nodes[nodeId].finished = true;
     
-    // Unlock children
+    // Unlock book children and gift reward
     const node = CONFIG.tree.find(n => n.id === nodeId);
-    if (node && node.children) {
-        node.children.forEach(childId => {
-            userData.nodes[childId].obtained = true;
-        });
+    if (node) {
+        if (node.bookChildren && node.bookChildren.length > 0) {
+            node.bookChildren.forEach(childId => {
+                userData.nodes[childId].obtained = true;
+            });
+        }
+        if (node.giftReward) {
+            userData.nodes[node.giftReward].obtained = true;
+        }
     }
 
     saveData();
@@ -196,11 +228,14 @@ function forceFinishBook(nodeId) {
     userData.nodes[nodeId].currentPage = node.totalPages;
     userData.nodes[nodeId].finished = true;
     
-    // Unlock children
-    if (node && node.children) {
-        node.children.forEach(childId => {
+    // Unlock book children and gift reward
+    if (node.bookChildren && node.bookChildren.length > 0) {
+        node.bookChildren.forEach(childId => {
             userData.nodes[childId].obtained = true;
         });
+    }
+    if (node.giftReward) {
+        userData.nodes[node.giftReward].obtained = true;
     }
 
     saveData();
@@ -213,14 +248,7 @@ function openGift(nodeId) {
     if (!userData.nodes[nodeId].opened) {
         userData.nodes[nodeId].opened = true;
         
-        // Unlock children
-        const node = CONFIG.tree.find(n => n.id === nodeId);
-        if (node && node.children) {
-            node.children.forEach(childId => {
-                userData.nodes[childId].obtained = true;
-            });
-        }
-        
+        // Gifts do NOT unlock anything - they are separate objects
         saveData();
         celebrateUnlock();
         renderSkillTree();
@@ -289,18 +317,20 @@ function renderSkillTree() {
     const container = document.getElementById('skillTree');
     container.innerHTML = '';
 
-    // Determine max level of obtained nodes
+    // Determine max level of obtained book nodes
     let maxObtainedLevel = 1;
     CONFIG.tree.forEach(node => {
-        if (userData.nodes[node.id].obtained && node.level > maxObtainedLevel) {
+        if (node.type === 'book' && userData.nodes[node.id].obtained && node.level > maxObtainedLevel) {
             maxObtainedLevel = node.level;
         }
     });
 
-    // Group nodes by level
+    // Group BOOKS by level only
     const levels = {};
     CONFIG.tree.forEach(node => {
-        // Only show nodes that are:
+        if (node.type !== 'book') return; // Skip gifts in main tree
+        
+        // Only show books that are:
         // 1. Obtained, OR
         // 2. At the next level (teased)
         if (userData.nodes[node.id].obtained || node.level === maxObtainedLevel + 1) {
@@ -324,6 +354,16 @@ function renderSkillTree() {
         level.forEach(node => {
             const nodeEl = createNodeElement(node);
             levelDiv.appendChild(nodeEl);
+            
+            // Add gift reward next to the book node if it exists
+            if (node.giftReward) {
+                const giftNode = CONFIG.tree.find(g => g.id === node.giftReward);
+                if (giftNode && userData.nodes[giftNode.id].obtained) {
+                    const giftEl = createNodeElement(giftNode);
+                    giftEl.style.marginLeft = '10px';
+                    levelDiv.appendChild(giftEl);
+                }
+            }
         });
 
         container.appendChild(levelDiv);
@@ -394,16 +434,17 @@ function createNodeElement(node) {
         if (!isObtained) {
             nodeEl.innerHTML = `
                 <div class="node-content">
-                    <div class="locked-label">🔒 Locked</div>
+                    <div class="gift-icon">🎁</div>
+                    <div class="locked-label">Locked</div>
                 </div>
             `;
         } else {
             nodeEl.innerHTML = `
                 <div class="node-content">
                     ${!isOpened ? `
-                        <button class="gift-btn" onclick="openGift(${node.id})">🎁</button>
+                        <button class="gift-btn" onclick="openGift(${node.id})">🎁 ${node.name}</button>
                     ` : `
-                        <div class="gift-obtained">✨ ${node.name} ✨</div>
+                        <div class="gift-obtained">✨ ${node.name}</div>
                     `}
                 </div>
             `;
@@ -415,9 +456,10 @@ function createNodeElement(node) {
 
 function drawConnections(svg) {
     CONFIG.tree.forEach(node => {
-        if (!node.children || node.children.length === 0) return;
+        // Only draw connections for books
+        if (node.type !== 'book' || !node.bookChildren || node.bookChildren.length === 0) return;
 
-        node.children.forEach(childId => {
+        node.bookChildren.forEach(childId => {
             const parentEl = document.querySelector(`[data-node="${node.id}"]`);
             const childEl = document.querySelector(`[data-node="${childId}"]`);
 

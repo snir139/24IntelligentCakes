@@ -198,17 +198,17 @@ header.celebration-mode {
 
 main {
     background: white;
-    padding: 40px;
+    padding: 30px 40px;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(255, 105, 180, 0.15);
-    margin-top: -30px;
+    margin-top: -20px;
 }
 
 .skill-tree {
     margin-bottom: 40px;
     position: relative;
-    min-height: 600px;
-    margin-top: 20px; /* Reduced blank space */
+    min-height: auto;
+    margin-top: 0;
 }
 
 .tree-connections {
@@ -226,6 +226,13 @@ main {
     fill: none;
     opacity: 0.5;
     filter: drop-shadow(0 2px 4px rgba(255, 105, 180, 0.3));
+}
+
+/* Add clearer connections between nodes */
+.skill-tree .connection {
+    stroke: #ff69b4;
+    stroke-width: 2;
+    fill: none;
 }
 
 .tree-level {
@@ -265,12 +272,13 @@ main {
 
 .node.gift-node {
     min-width: 120px;
-    border-radius: 20px;
+    border-radius: 15px;
     padding: 15px;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 120px;
+    flex-direction: column;
 }
 
 .node.locked {
@@ -553,4 +561,12 @@ main {
     .book-cover {
         font-size: 2em;
     }
+}
+
+/* Position gifts on the side */
+.skill-tree .gift {
+    position: absolute;
+    right: -100px; /* Adjust as needed */
+    top: 50%;
+    transform: translateY(-50%);
 }
