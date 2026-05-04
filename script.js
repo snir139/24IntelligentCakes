@@ -247,6 +247,7 @@ function forceFinishBook(nodeId) {
 function openGift(nodeId) {
     if (!userData.nodes[nodeId].opened) {
         userData.nodes[nodeId].opened = true;
+        userData.nodes[nodeId].finished = true; // Mark gift as completed when opened
         
         // Gifts do NOT unlock anything - they are separate objects
         saveData();
@@ -317,7 +318,7 @@ function renderSkillTree() {
     const container = document.getElementById('skillTree');
     container.innerHTML = '';
 
-    // Determine max level of obtained book nodes
+    // Determine max level of obtained BOOK nodes (books unlock levels, not gifts)
     let maxObtainedLevel = 1;
     CONFIG.tree.forEach(node => {
         if (node.type === 'book' && userData.nodes[node.id].obtained && node.level > maxObtainedLevel) {
@@ -325,15 +326,15 @@ function renderSkillTree() {
         }
     });
 
-    // Group BOOKS by level only
+    // Group ALL NODES (books and gifts) by level
     const levels = {};
     CONFIG.tree.forEach(node => {
-        if (node.type !== 'book') return; // Skip gifts in main tree
-        
-        // Only show books that are:
+        // Only show nodes that are:
         // 1. Obtained, OR
-        // 2. At the next level (teased)
-        if (userData.nodes[node.id].obtained || node.level === maxObtainedLevel + 1) {
+        // 2. At the next level (teased) - only if it's a book
+        const shouldShow = userData.nodes[node.id].obtained || (node.type === 'book' && node.level === maxObtainedLevel + 1);
+        
+        if (shouldShow) {
             if (!levels[node.level]) levels[node.level] = [];
             levels[node.level].push(node);
         }
@@ -354,16 +355,6 @@ function renderSkillTree() {
         level.forEach(node => {
             const nodeEl = createNodeElement(node);
             levelDiv.appendChild(nodeEl);
-            
-            // Add gift reward next to the book node if it exists
-            if (node.giftReward) {
-                const giftNode = CONFIG.tree.find(g => g.id === node.giftReward);
-                if (giftNode && userData.nodes[giftNode.id].obtained) {
-                    const giftEl = createNodeElement(giftNode);
-                    giftEl.style.marginLeft = '10px';
-                    levelDiv.appendChild(giftEl);
-                }
-            }
         });
 
         container.appendChild(levelDiv);
