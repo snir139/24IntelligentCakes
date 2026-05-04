@@ -343,7 +343,6 @@ function renderSkillTree() {
     // Create SVG for connections
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.className = 'tree-connections';
-    svg.setAttribute('viewBox', '0 0 1000 1200');
     container.appendChild(svg);
 
     // Render each level
@@ -446,6 +445,15 @@ function createNodeElement(node) {
 }
 
 function drawConnections(svg) {
+    // Clear existing paths
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+
+    const container = document.getElementById('skillTree');
+    const containerRect = container.getBoundingClientRect();
+    
+    // Set the viewBox dynamically to match exact pixel dimensions for 1:1 mapping!
+    svg.setAttribute('viewBox', `0 0 ${containerRect.width} ${containerRect.height}`);
+
     CONFIG.tree.forEach(node => {
         // Only draw connections for books
         if (node.type !== 'book' || !node.bookChildren || node.bookChildren.length === 0) return;
@@ -457,21 +465,39 @@ function drawConnections(svg) {
             if (parentEl && childEl) {
                 const parentRect = parentEl.getBoundingClientRect();
                 const childRect = childEl.getBoundingClientRect();
-                const containerRect = document.getElementById('skillTree').getBoundingClientRect();
 
+                // Calculate center bottom of parent and center top of child
                 const x1 = parentRect.left - containerRect.left + parentRect.width / 2;
                 const y1 = parentRect.top - containerRect.top + parentRect.height;
                 const x2 = childRect.left - containerRect.left + childRect.width / 2;
                 const y2 = childRect.top - containerRect.top;
 
+                // Draw an elegant S-curve (Cubic Bezier) instead of a simple arc
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                line.setAttribute('d', `M ${x1} ${y1} Q ${(x1 + x2) / 2} ${(y1 + y2) / 2} ${x2} ${y2}`);
+                line.setAttribute('d', `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`);
                 line.setAttribute('class', 'connection-line');
                 svg.appendChild(line);
             }
         });
     });
 }
+
+// Redraw connections on resize
+function redrawConnectionsOnResize() {
+    const svg = document.querySelector('.skill-tree > svg.tree-connections');
+    if (svg) drawConnections(svg);
+}
+
+window.addEventListener('resize', () => {
+    // Debounce for performance
+    clearTimeout(window.__treeLineTimeout);
+    window.__treeLineTimeout = setTimeout(redrawConnectionsOnResize, 100);
+});
+
+// Also trigger after DOMContentLoaded in case of initial layout
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(redrawConnectionsOnResize, 100);
+});
 
 function unlockTree() {
     document.getElementById('lockedState').classList.remove('active');

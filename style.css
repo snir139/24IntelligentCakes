@@ -124,7 +124,7 @@ body {
 
 /* Unlocked State */
 #unlockedState {
-    min-height: 100vh;
+    min-height: auto;
 }
 
 header {
@@ -197,7 +197,7 @@ header.celebration-mode {
 
 main {
     background: white;
-    padding: 30px 40px;
+    padding: 20px 40px;
     border-radius: 20px;
     box-shadow: 0 10px 40px rgba(255, 105, 180, 0.15);
     margin-top: 0;
@@ -206,9 +206,7 @@ main {
 .skill-tree {
     margin-bottom: 40px;
     position: relative;
-    min-height: auto;
-    margin-top: 0;
-    overflow: visible;
+    width: 100%;
 }
 
 .tree-connections {
@@ -216,8 +214,9 @@ main {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    min-height: 100%;
     pointer-events: none;
+    z-index: 5;
 }
 
 .connection-line {
@@ -235,14 +234,26 @@ main {
     fill: none;
 }
 
+
 .tree-level {
     display: flex;
     justify-content: center;
     gap: 40px;
-    margin: 60px 0;
+    margin: 20px 0;
     flex-wrap: wrap;
     position: relative;
     z-index: 10;
+}
+
+/* Absolutely position SVG behind nodes in skill tree */
+.skill-tree > svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
 }
 
 .node {
