@@ -451,34 +451,49 @@ function drawConnections(svg) {
     const container = document.getElementById('skillTree');
     const containerRect = container.getBoundingClientRect();
     
-    // Set the viewBox dynamically to match exact pixel dimensions for 1:1 mapping!
+    // Set the viewBox dynamically to match exact pixel dimensions
     svg.setAttribute('viewBox', `0 0 ${containerRect.width} ${containerRect.height}`);
 
     CONFIG.tree.forEach(node => {
-        // Only draw connections for books
-        if (node.type !== 'book' || !node.bookChildren || node.bookChildren.length === 0) return;
+        // We only draw lines starting from books
+        if (node.type !== 'book') return;
 
-        node.bookChildren.forEach(childId => {
-            const parentEl = document.querySelector(`[data-node="${node.id}"]`);
-            const childEl = document.querySelector(`[data-node="${childId}"]`);
+        const parentEl = document.querySelector(`[data-node="${node.id}"]`);
+        if (!parentEl) return; // Skip if parent isn't rendered yet
 
-            if (parentEl && childEl) {
-                const parentRect = parentEl.getBoundingClientRect();
-                const childRect = childEl.getBoundingClientRect();
+        const parentRect = parentEl.getBoundingClientRect();
+        
+        // Calculate starting point (bottom center of parent node)
+        const x1 = parentRect.left - containerRect.left + parentRect.width / 2;
+        const y1 = parentRect.top - containerRect.top + parentRect.height;
 
-                // Calculate center bottom of parent and center top of child
-                const x1 = parentRect.left - containerRect.left + parentRect.width / 2;
-                const y1 = parentRect.top - containerRect.top + parentRect.height;
-                const x2 = childRect.left - containerRect.left + childRect.width / 2;
-                const y2 = childRect.top - containerRect.top;
+        // Helper function to draw the actual line to a target ID
+        const drawLineToTarget = (targetId) => {
+            const targetEl = document.querySelector(`[data-node="${targetId}"]`);
+            if (targetEl) {
+                const targetRect = targetEl.getBoundingClientRect();
+                
+                // Calculate ending point (top center of target node)
+                const x2 = targetRect.left - containerRect.left + targetRect.width / 2;
+                const y2 = targetRect.top - containerRect.top;
 
-                // Draw an elegant S-curve (Cubic Bezier) instead of a simple arc
+                // Draw an elegant S-curve (Cubic Bezier)
                 const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
                 line.setAttribute('d', `M ${x1} ${y1} C ${x1} ${(y1 + y2) / 2}, ${x2} ${(y1 + y2) / 2}, ${x2} ${y2}`);
                 line.setAttribute('class', 'connection-line');
                 svg.appendChild(line);
             }
-        });
+        };
+
+        // 1. Draw lines to next level books
+        if (node.bookChildren && node.bookChildren.length > 0) {
+            node.bookChildren.forEach(childId => drawLineToTarget(childId));
+        }
+
+        // 2. Draw line to the gift reward (This was missing!)
+        if (node.giftReward) {
+            drawLineToTarget(node.giftReward);
+        }
     });
 }
 
