@@ -6,8 +6,8 @@ const CONFIG = {
         {
             id: 1,
             type: 'book',
-            name: 'Filler',
-            totalPages: 500,
+            name: 'The Will of the Many',
+            totalPages: 692,
             level: 1,
             x: 50,
             bookChildren: [2],

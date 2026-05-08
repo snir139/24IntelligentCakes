@@ -492,9 +492,9 @@ main {
 }
 
 .gift-btn {
-    background: linear-gradient(135deg, #FFD700, #FFC700);
+    background: linear-gradient(135deg, #ffaff3, #ff9dd0);
     color: #333;
-    border: 3px solid #FFD700;
+    border: 3px solid #ffabdf;
     padding: 20px 25px;
     border-radius: 50%;
     width: 80px;
@@ -508,7 +508,7 @@ main {
     justify-content: center;
     margin: 0 auto;
     animation: gift-bounce 0.8s ease-in-out infinite;
-    box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    box-shadow: 0 4px 15px rgba(228, 123, 147, 0.4);
 }
 
 @keyframes gift-bounce {
@@ -522,7 +522,7 @@ main {
 
 .gift-btn:hover {
     transform: scale(1.25) rotate(15deg);
-    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(255, 147, 203, 0.6);
     animation: none;
 }
 
