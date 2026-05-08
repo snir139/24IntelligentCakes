@@ -6,8 +6,8 @@ const CONFIG = {
         {
             id: 1,
             type: 'book',
-            name: 'Pride and Prejudice',
-            totalPages: 426,
+            name: 'Filler',
+            totalPages: 500,
             level: 1,
             x: 50,
             bookChildren: [2],
@@ -28,8 +28,8 @@ const CONFIG = {
         {
             id: 3,
             type: 'book',
-            name: 'The Adventures of Sherlock Holmes',
-            totalPages: 336,
+            name: 'Pride and Prejudice',
+            totalPages: 426,
             level: 3,
             x: 70,
             bookChildren: [4],
@@ -39,8 +39,8 @@ const CONFIG = {
         {
             id: 4,
             type: 'book',
-            name: 'Dracula',
-            totalPages: 464,
+            name: 'The Adventures of Sherlock Holmes',
+            totalPages: 336,
             level: 4,
             x: 30,
             bookChildren: [5],
@@ -54,6 +54,17 @@ const CONFIG = {
             totalPages: 240,
             level: 5,
             x: 70,
+            bookChildren: [6],
+            giftReward: 0
+        },
+        // Level 6 - Books unlocked by Level 5
+        {
+            id: 6,
+            type: 'book',
+            name: 'Dracula',
+            totalPages: 464,
+            level: 6,
+            x: 70,
             bookChildren: [],
             giftReward: 14
         },
@@ -62,36 +73,36 @@ const CONFIG = {
         {
             id: 10,
             type: 'gift',
-            name: 'Bookmark Set',
+            name: 'Bookmarks',
             level: 2,
             rewardedBy: 1
         },
         {
             id: 11,
             type: 'gift',
-            name: 'Book Light',
+            name: 'Thermometer',
             level: 3,
             rewardedBy: 2
         },
         {
             id: 12,
             type: 'gift',
-            name: 'Reading Glasses',
+            name: 'Apron',
             level: 4,
             rewardedBy: 3
         },
         {
             id: 13,
             type: 'gift',
-            name: 'Tea Set',
+            name: 'Book Embosser',
             level: 5,
             rewardedBy: 4
         },
         {
             id: 14,
             type: 'gift',
-            name: 'Cozy Blanket',
-            level: 6,
+            name: 'Lip Oil',
+            level: 7,
             rewardedBy: 5
         }
     ]

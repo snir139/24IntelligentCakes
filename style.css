@@ -4,14 +4,46 @@
     box-sizing: border-box;
 }
 
+html {
+    cursor: url('cute-strawberry/normal.cur'), auto;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: linear-gradient(135deg, #ffe0f0 0%, #fff5f8 100%);
     min-height: 100vh;
     display: block;
     padding: 20px;
+    cursor: inherit;
 }
 
+a,
+button,
+button:hover,
+button:focus,
+button:active,
+.gift-btn,
+.update-btn,
+.force-finish-btn,
+.finish-btn {
+  cursor: url('cute-strawberry/help.cur'), pointer;
+}
+
+input,
+textarea,
+select,
+.page-input,
+.book-input input,
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+span {
+  cursor: url('cute-strawberry/text.cur'), text;
+}
 .container {
     width: 100%;
     max-width: 900px;
@@ -114,7 +146,7 @@ body {
     border-radius: 10px;
     font-size: 1em;
     font-weight: bold;
-    cursor: pointer;
+    cursor: url('cute-strawberry/help.cur'), pointer;
     transition: transform 0.2s;
 }
 
@@ -264,7 +296,7 @@ main {
     text-align: center;
     min-width: 200px;
     transition: all 0.3s;
-    cursor: pointer;
+    cursor: url('cute-strawberry/help.cur'), pointer;
     position: relative;
     box-shadow: 0 4px 15px rgba(255, 105, 180, 0.2);
 }
