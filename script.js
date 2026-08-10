@@ -28,8 +28,8 @@ const CONFIG = {
         {
             id: 3,
             type: 'book',
-            name: 'Jane Eyre',
-            totalPages: 576,
+            name: 'The Ballad of Never After',
+            totalPages: 372,
             level: 3,
             x: 30,
             bookChildren: [4],
@@ -39,8 +39,8 @@ const CONFIG = {
         {
             id: 4,
             type: 'book',
-            name: 'Pride and Prejudice',
-            totalPages: 426,
+            name: 'Frankenstein',
+            totalPages: 240,
             level: 4,
             x: 70,
             bookChildren: [5],
@@ -50,35 +50,46 @@ const CONFIG = {
         {
             id: 5,
             type: 'book',
-            name: 'The Adventures of Sherlock Holmes',
-            totalPages: 336,
+            name: 'The Little Prince',
+            totalPages: 107,
             level: 5,
             x: 50,
-            bookChildren: [6,7],
+            bookChildren: [6],
             giftReward: 14
         },
-        // Level 6 - Books unlocked by Level 5
+        // Level 6 - Book unlocked by Level 5
         {
             id: 6,
             type: 'book',
-            name: 'Frankenstein',
-            totalPages: 240,
+            name: 'Dracula',
+            totalPages: 464,
             level: 6,
+            x: 50,
+            bookChildren: [7, 8],
+            giftReward: 0
+        },
+        // Level 7 - Branch unlocked by Level 6
+        {
+            id: 7,
+            type: 'book',
+            name: 'Jane Eyre',
+            totalPages: 576,
+            level: 7,
             x: 30,
             bookChildren: [],
             giftReward: 0
         },
         {
-            id: 7,
+            id: 8,
             type: 'book',
-            name: 'Dracula',
-            totalPages: 464,
-            level: 6,
+            name: 'The Adventures of Sherlock Holmes',
+            totalPages: 336,
+            level: 7,
             x: 70,
             bookChildren: [],
             giftReward: 0
         },
-       
+
         // Gifts - separate from tree structure
         {
             id: 10,
