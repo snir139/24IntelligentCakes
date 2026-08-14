@@ -101,28 +101,28 @@ const CONFIG = {
         {
             id: 11,
             type: 'gift',
-            name: 'Thermometer',
+            name: 'Lip Oil',
             level: 3,
             rewardedBy: 2
         },
         {
             id: 12,
             type: 'gift',
-            name: 'Apron',
+            name: 'Book Embosser',
             level: 4,
             rewardedBy: 3
         },
         {
             id: 13,
             type: 'gift',
-            name: 'Book Embosser',
+            name: 'Thermometer',
             level: 5,
             rewardedBy: 4
         },
         {
             id: 14,
             type: 'gift',
-            name: 'Lip Oil',
+            name: 'Apron',
             level: 6,
             rewardedBy: 5
         }
