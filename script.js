@@ -29,52 +29,63 @@ const CONFIG = {
             id: 3,
             type: 'book',
             name: 'The Ballad of Never After',
-            totalPages: 372,
+            totalPages: 400,
             level: 3,
             x: 30,
-            bookChildren: [4],
+            bookChildren: [9],
             giftReward: 12
         },
-        // Level 4 - Books unlocked by Level 3
+        // Level 4 - Book unlocked by Level 3
+        {
+            id: 9,
+            type: 'book',
+            name: 'A Curse For True Love',
+            totalPages: 385,
+            level: 4,
+            x: 70,
+            bookChildren: [4],
+            giftReward: 0
+        },
+        // Level 5 - Books unlocked by Level 4
         {
             id: 4,
             type: 'book',
             name: 'Frankenstein',
             totalPages: 240,
-            level: 4,
+            level: 5,
             x: 70,
             bookChildren: [5],
             giftReward: 13
         },
-        // Level 5 - Books unlocked by Level 4
+        // Level 6 - Books unlocked by Level 5
         {
             id: 5,
             type: 'book',
             name: 'The Little Prince',
             totalPages: 107,
-            level: 5,
+            level: 6,
             x: 50,
             bookChildren: [6],
             giftReward: 14
         },
-        // Level 6 - Book unlocked by Level 5
+        // Level 7 - Book unlocked by Level 6
         {
             id: 6,
             type: 'book',
             name: 'Dracula',
             totalPages: 464,
-            level: 6,
+            level: 7,
             x: 50,
             bookChildren: [7, 8],
             giftReward: 0
         },
-        // Level 7 - Branch unlocked by Level 6
+        // Level 8 - Branch unlocked by Level 7
         {
             id: 7,
             type: 'book',
             name: 'Jane Eyre',
             totalPages: 576,
-            level: 7,
+            level: 8,
             x: 30,
             bookChildren: [],
             giftReward: 0
@@ -84,7 +95,7 @@ const CONFIG = {
             type: 'book',
             name: 'The Adventures of Sherlock Holmes',
             totalPages: 336,
-            level: 7,
+            level: 8,
             x: 70,
             bookChildren: [],
             giftReward: 0
@@ -116,14 +127,14 @@ const CONFIG = {
             id: 13,
             type: 'gift',
             name: 'Thermometer',
-            level: 5,
+            level: 6,
             rewardedBy: 4
         },
         {
             id: 14,
             type: 'gift',
             name: 'Apron',
-            level: 6,
+            level: 7,
             rewardedBy: 5
         }
     ]
